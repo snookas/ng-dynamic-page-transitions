@@ -1,0 +1,61 @@
+:host{
+  position: absolute;
+  width: calc(100vw - 100px);
+  height: calc(100vh - 100px);
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 50px;
+
+  .button{
+    position: absolute;
+    font-size: 34px;
+    background-color: #d1d2e3;
+    border: none;
+    border-radius: 50px;
+    padding: 50px;
+    cursor: pointer;
+
+    .description{
+      position: relative;
+      .icon{
+      position: absolute;
+        left: -17px;
+        top: -18px;
+      }
+    }
+
+    &__top{
+      align-self: flex-start;
+
+    }
+    &__bottom{
+      align-self: flex-end;
+      .description .icon{
+        transform: rotate(180deg);
+      }
+    }
+    &__left{
+     left: 0;
+      .description .icon{
+        transform: rotate(270deg);
+      }
+    }
+    &__right{
+      right: 0;
+      .description .icon{
+        transform: rotate(90deg);
+      }
+    }
+    &__center-1{
+      margin-left: -110px;
+      .description .icon{
+      }
+    }
+    &__center-2{
+      margin-left: 110px;
+    }
+  }
+}
