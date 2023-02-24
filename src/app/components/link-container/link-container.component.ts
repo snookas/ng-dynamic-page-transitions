@@ -12,7 +12,7 @@ export class LinkContainerComponent  {
 
   @Output() linkClicked = new EventEmitter<{ url: string, direction: BasePageAnimationDirection }>;
 
-  public handleLinkClick(url: string, position: "top" | "left" | "right" | "bottom" | "center-1" | "center-2") {
+  public handleLinkClick(url: string, position: "top" | "left" | "right" | "bottom" | "center-1" | "center-2" | "center-3" | "center-4" ) {
     let direction;
     switch (position) {
       case "top":
@@ -33,8 +33,14 @@ export class LinkContainerComponent  {
       case "center-2":
         direction = BasePageAnimationDirection.ZOOM_IN;
         break;
+      case "center-3":
+        direction = BasePageAnimationDirection.ROTATE_CCLOCK;
+        break;
+      case "center-4":
+        direction = BasePageAnimationDirection.ROTATE_CLOCK;
+        break;
     }
-
+    console.log(direction);
     this.linkClicked.emit({
       url,
       direction,

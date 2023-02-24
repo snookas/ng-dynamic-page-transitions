@@ -5,6 +5,8 @@ export enum BasePageAnimationDirection {
   DOWN="down",
   FADE = "fade",
   LEFT= "left",
-  RIGHT = "right"
+  RIGHT = "right",
+  ROTATE_CLOCK = "rotateClockwise",
+  ROTATE_CCLOCK = "rotateCounterClockwise"
 }
 

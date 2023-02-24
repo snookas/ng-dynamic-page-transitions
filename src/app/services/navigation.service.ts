@@ -32,8 +32,8 @@ export class NavigationService {
     let direction = animationDirection? animationDirection : this._animationDirection;
 
     this.setBasePageAnimationDirection(direction);
-    // emit current animation data
 
+    // emit current animation data
     this.animationDirection.next(direction);
 
     timer(1).subscribe((i) => {

@@ -9,15 +9,19 @@ import {
   transition,
   trigger,
 } from "@angular/animations";
+import {BasePageAnimationDirection} from "./animationTypes";
 
 const transitionTime = "600ms ";
 const transitionEase = "cubic-bezier(.67,.01,.36,.99)";
 const transitionEase2 = "cubic-bezier(.76,0,.41,.99)";
 const transitionEaseZoom = "cubic-bezier(.86,.01,.85,.59)";
 
+const scaleMin = 0.7;
+const scaleMax = 2;
+
 export const basePageAnimations = trigger("basePageAnimation", [
   state(
-    "down",
+    BasePageAnimationDirection.DOWN,
     style({
       width: "100%",
       position: "absolute",
@@ -30,7 +34,7 @@ export const basePageAnimations = trigger("basePageAnimation", [
     })
   ),
   state(
-    "up",
+    BasePageAnimationDirection.UP,
     style({
       width: "100%",
       position: "absolute",
@@ -42,7 +46,59 @@ export const basePageAnimations = trigger("basePageAnimation", [
       opacity: 1,
     })
   ),
-  state("fade", style({ width: "100%", left: 0, opacity: 1 })),
+  state(
+    BasePageAnimationDirection.ZOOM_IN,
+    style({
+      width: "100%",
+      position: "absolute",
+      display: "block",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      opacity: 1,
+    })
+  ),
+  state(
+    BasePageAnimationDirection.ZOOM_OUT,
+    style({
+      width: "100%",
+      position: "absolute",
+      display: "block",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      opacity: 1,
+    })
+  ),
+  state(
+    BasePageAnimationDirection.LEFT,
+    style({
+      width: "100%",
+      position: "absolute",
+      display: "block",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      opacity: 1,
+    })
+  ),
+  state(
+    BasePageAnimationDirection.RIGHT,
+    style({
+      width: "100%",
+      position: "absolute",
+      display: "block",
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      opacity: 1,
+    })
+  ),
+  state(BasePageAnimationDirection.FADE, style({ width: "100%", left: 0, opacity: 1 })),
 
   // ^^^^^^
   transition("up => void", [
@@ -79,6 +135,7 @@ export const basePageAnimations = trigger("basePageAnimation", [
       query("@*", animateChild(), { optional: true }),
     ]),
   ]),
+
   // vvvvvvvv
   transition("down => void", [
     // vv leave vv
@@ -192,7 +249,7 @@ export const basePageAnimations = trigger("basePageAnimation", [
     // << zoom-in enter >>
     style({
       opacity: 0,
-      transform: "scale(0)",
+      transform:  "scale("+scaleMin+")",
     }),
     group([
       animate(
@@ -216,7 +273,7 @@ export const basePageAnimations = trigger("basePageAnimation", [
         transitionTime + transitionEase,
         style({
           opacity: 0,
-          transform: "scale(15)",
+          transform: "scale("+scaleMax+")",
         })
       ),
       query("@*", animateChild(), { optional: true }),
@@ -228,7 +285,7 @@ export const basePageAnimations = trigger("basePageAnimation", [
     // >> zoom-out enter <<
     style({
       opacity: 0,
-      transform: "scale(15)",
+      transform:  "scale("+scaleMax+")",
     }),
     group([
       animate(
@@ -251,7 +308,7 @@ export const basePageAnimations = trigger("basePageAnimation", [
       transitionTime + transitionEase,
       style({
         opacity: 0,
-        transform: "scale(0)",
+        transform: "scale("+scaleMin+")",
       })
     ),
   ]),
@@ -286,6 +343,73 @@ export const basePageAnimations = trigger("basePageAnimation", [
       ),
       query("@*", animateChild(), { optional: true }),
     ]),
+  ]),
+
+
+  // rotate clockwise
+  transition("void => rotateClockwise", [
+    // >> zoom-out enter <<
+    style({
+      opacity: 1,
+      transform:  "translateX(-100vw) scale(0.5) rotate(-90deg)",
+    }),
+    group([
+      animate(
+        transitionTime + transitionEase,
+        style({
+          opacity: 1,
+          transform:  "translateX(0) scale(1) rotate(0) ",
+        })
+      ),
+      query("@*", animateChild(), { optional: true }),
+    ]),
+  ]),
+  transition("rotateClockwise => void", [
+    // >> zoom-out leave <<
+    style({
+      opacity: 0.7,
+      transform:  "translateX(0) scale(1) rotate(0deg)",
+    }),
+    animate(
+      transitionTime + transitionEase,
+      style({
+        opacity: 0.3,
+        transform:  "translateX(100vw) scale(0.8) rotate(90deg)",
+      })
+    ),
+  ]),
+
+  // rotate counte clockwise
+  transition("void => rotateCounterClockwise", [
+    // >> zoom-out enter <<
+    style({
+      opacity: 1,
+      transform:  "translateX(100vw) scale(0.8) rotate(90deg)",
+    }),
+    group([
+      animate(
+        transitionTime + transitionEase,
+        style({
+          opacity: 1,
+          transform:  "translateX(0) scale(1) rotate(0) ",
+        })
+      ),
+      query("@*", animateChild(), { optional: true }),
+    ]),
+  ]),
+  transition("rotateCounterClockwise => void", [
+    // >> zoom-out leave <<
+    style({
+      opacity: 0.7,
+      transform:  "translateX(0) scale(1) rotate(0deg)",
+    }),
+    animate(
+      transitionTime + transitionEase,
+      style({
+        opacity: 0.3,
+        transform:  "translateX(-100vw) scale(0.8) rotate(-90deg)",
+      })
+    ),
   ]),
 
 ]);
