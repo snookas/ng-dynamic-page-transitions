@@ -2,7 +2,7 @@ import {
   animate,
   animateChild,
   group,
-  query,
+  query, sequence,
   stagger,
   state,
   style,
@@ -12,6 +12,9 @@ import {
 import {BasePageAnimationDirection} from "./animationTypes";
 
 const transitionTime = "600ms ";
+const transitionTimeForSpecial = "450ms ";
+const transitionEaseForSpecial = "cubic-bezier(0,.44,0,1)";
+const transitionEaseForSpecial2 = "cubic-bezier(.69,0,.66,1.06)";
 const transitionEase = "cubic-bezier(.67,.01,.36,.99)";
 const transitionEase2 = "cubic-bezier(.76,0,.41,.99)";
 const transitionEaseZoom = "cubic-bezier(.86,.01,.85,.59)";
@@ -208,6 +211,71 @@ export const basePageAnimations = trigger("basePageAnimation", [
     ]),
   ]),
 
+  transition("void => left", [
+    // << enter <<
+    style({
+      opacity: 1,
+      transform: "translateX(100%) scale(1)",
+    }),
+    sequence(
+      [
+        animate(
+          transitionTimeForSpecial + transitionEase,
+        style({
+          opacity: 1,
+          transform: "translateX(100%) scale(0.7)",
+        })
+      ),
+        animate(
+          transitionTimeForSpecial + transitionEase,
+          style({
+            opacity: 1,
+            transform: "translateX(0) scale(0.7)",
+          })
+        ),
+        group([
+          animate(
+            transitionTimeForSpecial + transitionEaseForSpecial2,
+          style({
+            opacity: 1,
+            transform: "translateX(0) scale(1)",
+          })
+        ),
+          query("@*", animateChild(), { optional: true }),
+        ]),
+      ],
+
+    ),
+  ]),
+  transition("left => void", [
+    // << leave <<
+    style({
+      opacity: 1,
+      transform: "translateX(0) scale(1)",
+    }),
+    sequence(
+      [
+        animate(
+          transitionTimeForSpecial + transitionEaseForSpecial,
+          style({
+            opacity: 1,
+            transform: "translateX(0) scale(0.7)",
+          })
+        ),
+        group([
+        animate(
+          transitionTimeForSpecial + transitionEase,
+          style({
+            opacity: 1,
+            transform: "translateX(-100%) scale(0.7)",
+          })
+        ), query("@*", animateChild(), { optional: true }),
+        ]),
+      ]
+    ),
+
+
+  ]),
   // >>>>>>>>>>
   transition("void => right", [
     // >> enter >>
@@ -243,6 +311,7 @@ export const basePageAnimations = trigger("basePageAnimation", [
       query("@*", animateChild(), { optional: true }),
     ]),
   ]),
+
 
   // <<  __  >>
   transition("void => zoom-in", [
@@ -347,69 +416,138 @@ export const basePageAnimations = trigger("basePageAnimation", [
 
 
   // rotate clockwise
-  transition("void => rotateClockwise", [
-    // >> zoom-out enter <<
+
+  transition("void => leftWithScale", [
+    // << enter <<
     style({
       opacity: 1,
-      transform:  "translateX(-100vw) scale(0.5) rotate(-90deg)",
+      transform: "translateX(100%) scale(1)",
     }),
-    group([
-      animate(
-        transitionTime + transitionEase,
-        style({
-          opacity: 1,
-          transform:  "translateX(0) scale(1) rotate(0) ",
-        })
-      ),
-      query("@*", animateChild(), { optional: true }),
-    ]),
-  ]),
-  transition("rotateClockwise => void", [
-    // >> zoom-out leave <<
-    style({
-      opacity: 0.7,
-      transform:  "translateX(0) scale(1) rotate(0deg)",
-    }),
-    animate(
-      transitionTime + transitionEase,
-      style({
-        opacity: 0.3,
-        transform:  "translateX(100vw) scale(0.8) rotate(90deg)",
-      })
+    sequence(
+      [
+        animate(
+          transitionTimeForSpecial + transitionEase,
+          style({
+            opacity: 1,
+            transform: "translateX(100%) scale(0.7)",
+          })
+        ),
+        animate(
+          transitionTimeForSpecial + transitionEase,
+          style({
+            opacity: 1,
+            transform: "translateX(0) scale(0.7)",
+          })
+        ),
+        group([
+          animate(
+            transitionTimeForSpecial + transitionEaseForSpecial2,
+            style({
+              opacity: 1,
+              transform: "translateX(0) scale(1)",
+            })
+          ),
+          query("@*", animateChild(), { optional: true }),
+        ]),
+      ],
+
     ),
+  ]),
+  transition("leftWithScale => void", [
+    // << leave <<
+    style({
+      opacity: 1,
+      transform: "translateX(0) scale(1)",
+    }),
+    sequence(
+      [
+        animate(
+          transitionTimeForSpecial + transitionEaseForSpecial,
+          style({
+            opacity: 1,
+            transform: "translateX(0) scale(0.7)",
+          })
+        ),
+        group([
+          animate(
+            transitionTimeForSpecial + transitionEase,
+            style({
+              opacity: 1,
+              transform: "translateX(-100%) scale(0.7)",
+            })
+          ), query("@*", animateChild(), { optional: true }),
+        ]),
+      ]
+    ),
+
+
+  ]),
+  transition("void => rightWithScale", [
+    // << enter <<
+    style({
+      opacity: 1,
+      transform: "translateX(-100%) scale(1)",
+    }),
+    sequence(
+      [
+        animate(
+          transitionTimeForSpecial + transitionEase,
+          style({
+            opacity: 1,
+            transform: "translateX(-100%) scale(0.7)",
+          })
+        ),
+        animate(
+          transitionTimeForSpecial + transitionEase,
+          style({
+            opacity: 1,
+            transform: "translateX(0) scale(0.7)",
+          })
+        ),
+        group([
+          animate(
+            transitionTimeForSpecial + transitionEaseForSpecial2,
+            style({
+              opacity: 1,
+              transform: "translateX(0) scale(1)",
+            })
+          ),
+          query("@*", animateChild(), { optional: true }),
+        ]),
+      ],
+
+    ),
+  ]),
+  transition("rightWithScale => void", [
+    // << leave <<
+    style({
+      opacity: 1,
+      transform: "translateX(0) scale(1)",
+    }),
+    sequence(
+      [
+        animate(
+          transitionTimeForSpecial + transitionEaseForSpecial,
+          style({
+            opacity: 1,
+            transform: "translateX(0) scale(0.7)",
+          })
+        ),
+        group([
+          animate(
+            transitionTimeForSpecial + transitionEase,
+            style({
+              opacity: 1,
+              transform: "translateX(100%) scale(0.7)",
+            })
+          ), query("@*", animateChild(), { optional: true }),
+        ]),
+      ]
+    ),
+
+
   ]),
 
-  // rotate counte clockwise
-  transition("void => rotateCounterClockwise", [
-    // >> zoom-out enter <<
-    style({
-      opacity: 1,
-      transform:  "translateX(100vw) scale(0.8) rotate(90deg)",
-    }),
-    group([
-      animate(
-        transitionTime + transitionEase,
-        style({
-          opacity: 1,
-          transform:  "translateX(0) scale(1) rotate(0) ",
-        })
-      ),
-      query("@*", animateChild(), { optional: true }),
-    ]),
-  ]),
-  transition("rotateCounterClockwise => void", [
-    // >> zoom-out leave <<
-    style({
-      opacity: 0.7,
-      transform:  "translateX(0) scale(1) rotate(0deg)",
-    }),
-    animate(
-      transitionTime + transitionEase,
-      style({
-        opacity: 0.3,
-        transform:  "translateX(-100vw) scale(0.8) rotate(-90deg)",
-      })
-    ),
-  ]),
+
 
 ]);

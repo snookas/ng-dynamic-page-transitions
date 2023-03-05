@@ -1,6 +1,17 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {BasePageAnimationDirection} from "../animation-base/animationTypes";
 
+enum ButtonPositions {
+  TOP,
+  LEFT,
+  LEFT_2,
+  RIGHT,
+    RIGHT_2,
+BOTTOM,
+    CENTER,
+  CENTER_2
+}
+
 @Component({
   selector: 'app-link-container',
   templateUrl: './link-container.component.html',
@@ -12,39 +23,43 @@ export class LinkContainerComponent  {
 
   @Output() linkClicked = new EventEmitter<{ url: string, direction: BasePageAnimationDirection }>;
 
-  public handleLinkClick(url: string, position: "top" | "left" | "right" | "bottom" | "center-1" | "center-2" | "center-3" | "center-4" ) {
+  public handleLinkClick(url: string, position: ButtonPositions  ) {
     let direction;
     switch (position) {
-      case "top":
+      case ButtonPositions.TOP:
         direction = BasePageAnimationDirection.DOWN;
         break;
-      case "left":
+      case ButtonPositions.LEFT:
         direction = BasePageAnimationDirection.RIGHT;
         break;
-      case "right":
+      case ButtonPositions.RIGHT:
         direction = BasePageAnimationDirection.LEFT;
         break;
-      case "bottom":
+      case ButtonPositions.BOTTOM:
         direction = BasePageAnimationDirection.UP;
         break;
-      case "center-1":
+      case ButtonPositions.CENTER:
         direction = BasePageAnimationDirection.ZOOM_OUT;
         break;
-      case "center-2":
+      case ButtonPositions.CENTER_2:
         direction = BasePageAnimationDirection.ZOOM_IN;
         break;
-      case "center-3":
-        direction = BasePageAnimationDirection.ROTATE_CCLOCK;
+      case ButtonPositions.LEFT_2:
+        direction = BasePageAnimationDirection.RIGHT_SPECIAL;
         break;
-      case "center-4":
-        direction = BasePageAnimationDirection.ROTATE_CLOCK;
+      case ButtonPositions.RIGHT_2:
+        direction = BasePageAnimationDirection.LEFT_SPECIAL;
         break;
     }
-    console.log(direction);
+
     this.linkClicked.emit({
       url,
       direction,
     })
+  }
+
+  public get ButtonPositions() {
+    return ButtonPositions;
   }
 
 }
